@@ -14,9 +14,11 @@ public class CallerFaker implements Fakeable {
      *
      * @return stack trace depth.
      */
+    @SuppressWarnings("PMD.SystemPrintln")
     private int getDepth() {
         int depth = 0;
         for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+            System.out.println(element.getClassName().concat("." + element.getMethodName()));
             if (element.getClassName().equals("jdk.internal.reflect.NativeMethodAccessorImpl")
                     && element.getMethodName().equals("invoke0")) {
                 break;
