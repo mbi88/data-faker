@@ -160,8 +160,6 @@ public class JsonFakerTest {
 
         String caller = result.getJSONObject("b").getString("c");
         assertEquals(caller, "JsonFakerTest.testFakeCaller");
-
-        System.out.println(result.toString(2));
     }
 
     @Test
@@ -211,7 +209,7 @@ public class JsonFakerTest {
 
         boolean passed;
         try {
-            System.out.println(jsonFaker.fakeData(json).toString());
+            jsonFaker.fakeData(json);
             passed = true;
         } catch (IllegalArgumentException ex) {
             passed = false;
