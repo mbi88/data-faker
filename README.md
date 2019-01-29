@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.com/mbi88/data-faker.svg?branch=master)](https://travis-ci.com/mbi88/data-faker)
+[![](https://jitpack.io/v/mbi88/data-faker.svg)](https://jitpack.io/#mbi88/data-faker)
+[![codecov](https://codecov.io/gh/mbi88/data-faker/branch/master/graph/badge.svg)](https://codecov.io/gh/mbi88/data-faker)
+
+
 ## About
 Set update parameter in object to get it replaced with corresponding data.
 
@@ -22,6 +27,26 @@ Returns:
 {
   "field": "Today is 2019-01-29."
 }
+```
+
+## Usage
+Add it in your root `build.gradle` at the end of repositories:
+
+```
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+Add the dependency:
+
+```
+dependencies {
+	        implementation 'com.github.mbi88:data-faker:master-SNAPSHOT'
+	}
 ```
 
 ## Example
