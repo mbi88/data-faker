@@ -26,7 +26,7 @@ public class JsonFakerTest {
         JSONObject result = jsonFaker.fakeData(json);
 
         assertFalse(result.toString().contains("{$"));
-        assertTrue(result.getString("a").startsWith("aaa testCanFakeData ccc "));
+        assertTrue(result.getString("a").startsWith("aaa JsonFakerTest.testCanFakeData ccc "));
         result.getJSONObject("b").similar(new JSONObject().put("c", 2));
         assertEquals(result.getString("d"), date + " " + date);
         result.getJSONObject("e").similar(new JSONObject().put("f", date + " " + date));
@@ -159,7 +159,7 @@ public class JsonFakerTest {
         JSONObject result = jsonFaker.fakeData(json);
 
         String caller = result.getJSONObject("b").getString("c");
-        assertEquals(caller, "testFakeCaller");
+        assertEquals(caller, "JsonFakerTest.testFakeCaller");
     }
 
     @Test
@@ -183,7 +183,7 @@ public class JsonFakerTest {
         JSONObject result = jsonFaker.fakeData(json);
 
         String dt = result.getJSONObject("b").getString("c");
-        assertEquals(dt, date);
+        assertTrue(dt.contains(date.substring(0, 15)), date);
     }
 
     @Test
@@ -209,7 +209,7 @@ public class JsonFakerTest {
 
         boolean passed;
         try {
-            System.out.println(jsonFaker.fakeData(json).toString());
+            jsonFaker.fakeData(json);
             passed = true;
         } catch (IllegalArgumentException ex) {
             passed = false;
