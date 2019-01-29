@@ -18,8 +18,7 @@ public class CallerFaker implements Fakeable {
     private int getDepth() {
         int depth = 0;
         for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
-            System.out.println(element.getClassName().concat("." + element.getMethodName()));
-            if (element.getClassName().equals("jdk.internal.reflect.NativeMethodAccessorImpl")
+            if (element.getClassName().contains("reflect.NativeMethodAccessorImpl")
                     && element.getMethodName().equals("invoke0")) {
                 break;
             }
