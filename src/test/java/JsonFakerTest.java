@@ -217,4 +217,25 @@ public class JsonFakerTest {
         }
         assertFalse(passed);
     }
+
+    @Test
+    public void testFakeArrayOfStrings() {
+        JSONArray jsonArray = new JSONArray().put("string");
+
+        JSONArray result = jsonFaker.fakeData(jsonArray);
+
+        result.similar(jsonArray);
+    }
+
+    @Test
+    public void testFakeArrayInArray() {
+        JSONArray jsonArray1 = new JSONArray();
+        jsonArray1.put(new JSONArray().put(new JSONObject().put("a", "{$uid}")));
+
+        JSONArray result = jsonFaker.fakeData(jsonArray1);
+
+        assertFalse(result.toString().contains("{$"));
+        String uid = result.getJSONArray(0).getJSONObject(0).getString("a");
+        assertTrue(uid.matches("[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"));
+    }
 }

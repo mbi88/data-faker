@@ -89,7 +89,13 @@ public class JsonFaker implements Faker {
     private JSONArray fakeJsonArrayData(final JSONArray json) {
         final JSONArray resultArray = new JSONArray();
         for (Object o : json) {
-            resultArray.put(fakeData((JSONObject) o));
+            if (o instanceof JSONObject) {
+                resultArray.put(fakeData((JSONObject) o));
+            } else if (o instanceof JSONArray) {
+                resultArray.put(fakeJsonArrayData((JSONArray) o));
+            } else {
+                resultArray.put(o);
+            }
         }
 
         return resultArray;
