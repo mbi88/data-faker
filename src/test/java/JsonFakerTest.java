@@ -109,8 +109,12 @@ public class JsonFakerTest {
         JSONObject json = new JSONObject();
         json.put("e", new JSONObject().put("f", "{$current_date} {$current_date}"));
         json.put("g", new JSONObject().put("j", new JSONObject().put("f", "{$current_date} {$current_date}")));
+        JSONObject j = new JSONObject();
+        j.put("dd", json);
+        JSONObject jj = new JSONObject();
+        jj.put("ddd", j);
 
-        JSONObject result = jsonFaker.fakeData(json);
+        JSONObject result = jsonFaker.fakeData(jj);
 
         assertFalse(result.toString().contains("{$"));
     }
