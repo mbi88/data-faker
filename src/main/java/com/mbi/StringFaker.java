@@ -55,7 +55,7 @@ public class StringFaker implements Faker {
 
         while (s.contains(PARAMETER_START)) {
             // Remove the sign of the beginning of the parameter and all before
-            s = s.substring(s.indexOf(PARAMETER_START) + 2);
+            s = s.substring(s.indexOf(PARAMETER_START) + PARAMETER_START.length());
             // Remove the sign of the end of the parameter and all after
             final String param;
             try {
