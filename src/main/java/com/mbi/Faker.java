@@ -1,5 +1,7 @@
 package com.mbi;
 
+import com.mbi.fakers.FakeDirector;
+
 /**
  * Set update parameter in object to get it replaced with corresponding data.
  * Example:
@@ -25,6 +27,11 @@ public interface Faker {
      * Ending of the update parameter.
      */
     String PARAMETER_END = "}";
+
+    /**
+     * Conducts value updating according to passed update parameter.
+     */
+    FakeDirector FAKE_DIRECTOR = new FakeDirector();
 
     /**
      * Replace update parameters with appropriate data.
