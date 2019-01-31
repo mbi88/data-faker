@@ -62,8 +62,10 @@ public class JsonFaker implements Faker {
                 updatedJson.put(field, fakeJsonObjectData((JSONObject) beUpdated));
             } else if (beUpdated instanceof JSONArray) {
                 updatedJson.put(field, fakeJsonArrayData((JSONArray) beUpdated));
-            } else {
+            } else if (beUpdated instanceof String) {
                 updatedJson.put(field, stringFaker.fakeData(updatedJson.get(field)).toString());
+            } else {
+                updatedJson.put(field, beUpdated);
             }
         }
 

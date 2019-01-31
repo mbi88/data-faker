@@ -242,4 +242,12 @@ public class JsonFakerTest {
         String uid = result.getJSONArray(0).getJSONObject(0).getString("a");
         assertTrue(uid.matches("[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"));
     }
+
+    @Test
+    public void testIntIsNotConvertedToString() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("a", 1);
+
+        assertEquals(jsonFaker.fakeData(jsonObject).toString(), jsonObject.toString());
+    }
 }
