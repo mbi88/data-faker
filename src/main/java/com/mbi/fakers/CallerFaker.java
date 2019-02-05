@@ -1,9 +1,24 @@
 package com.mbi.fakers;
 
+import java.util.function.Predicate;
+
 /**
  * Replaces parameter with caller method name.
  */
 public class CallerFaker implements Fakeable {
+
+    /**
+     * Helps to find test case element in stacktrace.
+     */
+    private final Predicate<StackTraceElement> testCaseInStackTrace = element -> {
+        final boolean invokedFromMethod = element.getClassName().contains("reflect.NativeMethodAccessorImpl")
+                && element.getMethodName().equals("invoke0");
+        final boolean invokedFromClassField = element.getClassName().contains("NativeConstructorAccessorImpl")
+                && element.getMethodName().equals("newInstance0");
+
+        return invokedFromMethod || invokedFromClassField;
+    };
+
     @Override
     public String fake(final String sourceString, final String parameter) {
         return sourceString.replace(parameter, getMethod());
@@ -17,8 +32,7 @@ public class CallerFaker implements Fakeable {
     private int getDepth() {
         int depth = 0;
         for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
-            if (element.getClassName().contains("reflect.NativeMethodAccessorImpl")
-                    && element.getMethodName().equals("invoke0")) {
+            if (testCaseInStackTrace.test(element)) {
                 break;
             }
             depth++;

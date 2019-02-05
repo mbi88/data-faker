@@ -12,6 +12,7 @@ import static org.testng.Assert.*;
 public class JsonFakerTest {
 
     private final Faker jsonFaker = new JsonFaker();
+    private final JSONObject json = jsonFaker.fakeData(new JSONObject().put("f", "{$caller}"));
 
     @Test
     public void testCanFakeData() {
@@ -164,6 +165,11 @@ public class JsonFakerTest {
 
         String caller = result.getJSONObject("b").getString("c");
         assertEquals(caller, "JsonFakerTest.testFakeCaller");
+    }
+
+    @Test
+    public void testCallerFakerOnClassInitialization() {
+        jsonFaker.fakeData(json).similar(new JSONObject().put("f", "JsonFakerTest.<init"));
     }
 
     @Test
