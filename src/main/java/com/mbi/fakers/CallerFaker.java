@@ -1,5 +1,8 @@
 package com.mbi.fakers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 /**
@@ -21,7 +24,7 @@ public class CallerFaker implements Fakeable {
 
     @Override
     public String fake(final String sourceString, final String parameter) {
-        return sourceString.replace(parameter, getMethod());
+        return sourceString.replace(parameter, getCallerMethodName());
     }
 
     /**
@@ -31,11 +34,12 @@ public class CallerFaker implements Fakeable {
      */
     private int getDepth() {
         int depth = 0;
-        for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+        final List<StackTraceElement> elements = new ArrayList<>(Arrays.asList(Thread.currentThread().getStackTrace()));
+
+        for (StackTraceElement element : elements) {
             if (testCaseInStackTrace.test(element)) {
-                break;
+                depth = elements.indexOf(element);
             }
-            depth++;
         }
 
         return depth - 2;
@@ -46,7 +50,7 @@ public class CallerFaker implements Fakeable {
      *
      * @return caller class and method.
      */
-    private String getMethod() {
+    private String getCallerMethodName() {
         final StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[getDepth()];
         return String.format("%s.%s", stackTraceElement.getClassName(), stackTraceElement.getMethodName());
     }
