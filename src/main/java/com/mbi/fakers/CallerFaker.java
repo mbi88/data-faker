@@ -1,5 +1,8 @@
 package com.mbi.fakers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +54,19 @@ public class CallerFaker implements Fakeable {
      * @return caller class and method.
      */
     private String getCallerMethodName() {
-        final StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[getDepth()];
+        final Logger log = LoggerFactory.getLogger(CallerFaker.class);
+        StackTraceElement stackTraceElement = null;
+        try {
+            stackTraceElement = Thread.currentThread().getStackTrace()[getDepth()];
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            log.info(e.getMessage());
+            log.info(String.valueOf(getDepth()));
+            for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+                log.info(element.getClassName() + " " + element.getMethodName());
+            }
+        }
+        assert stackTraceElement != null;
         return String.format("%s.%s", stackTraceElement.getClassName(), stackTraceElement.getMethodName());
     }
 }
