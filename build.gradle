@@ -18,6 +18,8 @@ dependencies {
     implementation group: 'joda-time', name: 'joda-time', version: '2.9.9'
     implementation group: 'org.testng', name: 'testng', version: '6.14.2'
     implementation group: 'org.json', name: 'json', version: '20180130'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
 }
 
 test {
