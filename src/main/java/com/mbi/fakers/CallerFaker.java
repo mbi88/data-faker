@@ -14,8 +14,9 @@ public class CallerFaker implements Fakeable {
      * Helps to find test case element in stacktrace.
      */
     private final Predicate<StackTraceElement> testCaseInStackTrace = element -> {
-        final boolean invokedFromMethod = element.getClassName().contains("reflect.NativeMethodAccessorImpl")
-                && element.getMethodName().equals("invoke0");
+        final boolean invokedFromMethod = element.getClassName().contains("reflect.")
+                && element.getClassName().contains("MethodAccessor")
+                && element.getMethodName().startsWith("invoke");
         final boolean invokedFromClassField = element.getClassName().contains("NativeConstructorAccessorImpl")
                 && element.getMethodName().equals("newInstance0");
 
@@ -39,6 +40,7 @@ public class CallerFaker implements Fakeable {
         for (StackTraceElement element : elements) {
             if (testCaseInStackTrace.test(element)) {
                 depth = elements.indexOf(element);
+                break;
             }
         }
 
@@ -52,6 +54,7 @@ public class CallerFaker implements Fakeable {
      */
     private String getCallerMethodName() {
         final StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[getDepth()];
+
         return String.format("%s.%s", stackTraceElement.getClassName(), stackTraceElement.getMethodName());
     }
 }
