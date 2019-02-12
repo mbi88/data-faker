@@ -176,7 +176,7 @@ public class JsonFakerTest {
     public void testFakeDate() {
         String date = DateTimeFormat.forPattern("yyyy-MM-dd").print(new DateTime());
         JSONObject json = new JSONObject();
-        json.put("b", new JSONObject().put("c", "{$current_date}"));
+        json.put("b", new JSONObject().put("c", "{$date}"));
 
         JSONObject result = jsonFaker.fakeData(json);
 
@@ -186,6 +186,30 @@ public class JsonFakerTest {
 
     @Test
     public void testFakeDateTime() {
+        String date = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss").print(new DateTime());
+        JSONObject json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$datetime}"));
+
+        JSONObject result = jsonFaker.fakeData(json);
+
+        String dt = result.getJSONObject("b").getString("c");
+        assertTrue(dt.contains(date.substring(0, 15)), date);
+    }
+
+    @Test
+    public void testFakeCurrentDate() {
+        String date = DateTimeFormat.forPattern("yyyy-MM-dd").print(new DateTime());
+        JSONObject json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$current_date}"));
+
+        JSONObject result = jsonFaker.fakeData(json);
+
+        String dt = result.getJSONObject("b").getString("c");
+        assertEquals(dt, date);
+    }
+
+    @Test
+    public void testFakeCurrentDateTime() {
         String date = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss").print(new DateTime());
         JSONObject json = new JSONObject();
         json.put("b", new JSONObject().put("c", "{$current_datetime}"));

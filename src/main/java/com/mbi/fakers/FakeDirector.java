@@ -28,6 +28,12 @@ public class FakeDirector {
             case UID:
                 updatedStr = new UidFaker().fake(fieldValue, fullParameter);
                 break;
+            case DATE:
+                updatedStr = new DateFaker().fake(fieldValue, fullParameter);
+                break;
+            case DATETIME:
+                updatedStr = new DateTimeFaker().fake(fieldValue, fullParameter);
+                break;
             case CURRENT_DATE:
                 updatedStr = new DateFaker().fake(fieldValue, fullParameter);
                 break;
