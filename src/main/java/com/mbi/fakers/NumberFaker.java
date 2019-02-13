@@ -42,12 +42,20 @@ public class NumberFaker implements Fakeable {
     }
 
     @Override
-    public Long fake(final String sourceString, final Parameter parameter) {
+    public Object fake(final String sourceString, final Parameter parameter) {
         final String randomNumber = (parameter.getArguments().isEmpty())
                 ? String.valueOf(getRandomNum())
                 : String.valueOf(getRandomNum(getDigitsCount(parameter)));
 
-        return Long.parseLong(sourceString.replace(parameter.getFullParameter(), randomNumber));
+        final String result = sourceString.replace(parameter.getFullParameter(), randomNumber);
+
+        try {
+            Long.parseLong(result);
+        } catch (NumberFormatException e) {
+            return result;
+        }
+
+        return Long.parseLong(result);
     }
 
     private int getDigitsCount(final Parameter parameter) {

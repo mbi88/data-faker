@@ -358,4 +358,16 @@ public class JsonFakerTest {
         }
         assertFalse(passed);
     }
+
+    @Test
+    public void testNumberFakerWithSeveralParameters() {
+        String date = DateTimeFormat.forPattern("yyyy-MM-dd").print(new DateTime());
+        JSONObject json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$date} {$number;2}"));
+
+        JSONObject result = jsonFaker.fakeData(json);
+
+        assertTrue(result.getJSONObject("b").getString("c").startsWith(date));
+        assertEquals(result.getJSONObject("b").getString("c").split(" ")[1].length(), 2);
+    }
 }
