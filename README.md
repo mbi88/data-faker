@@ -9,23 +9,27 @@ Set update parameter in object to get it replaced with corresponding data.
 Supported update parameters: 
 - UID _uid_
 
-- CURRENT_DATE _current date in format yyyy-MM-dd_
+- DATE _current date in format yyyy-MM-dd_
 
-- CURRENT_DATETIME _current datetime in format yyyy-MM-dd'T'HH:mm:ss_
+- DATETIME _current datetime in format yyyy-MM-dd'T'HH:mm:ss_
 
 - CALLER _caller method name_
+
+- NUMBER _random number_
 
 Example:
 ```json
 {
-  "field": "Today is {$current_date}."
+  "field1": "Today is {$date}.",
+  "field2": "Numbers: {$number}, {$number;2}"
 }
 ```
 
 Returns:
 ```json
 {
-  "field": "Today is 2019-01-29."
+  "field1": "Today is 2019-02-13.",
+  "field2": "Numbers: 1550061663279, 85"
 }
 ```
 
@@ -68,7 +72,7 @@ public class FakerTest {
     @Test
     public void testFaker() {
         JSONObject json = new JSONObject();
-        json.put("field", "Today is {$CURRENT_DATE}.");
+        json.put("field", "Today is {$DATE}.");
 
         JSONObject result = jsonFaker.fakeData(json);
 
