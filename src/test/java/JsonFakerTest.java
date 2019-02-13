@@ -231,7 +231,7 @@ public class JsonFakerTest {
             passed = true;
         } catch (IllegalArgumentException ex) {
             passed = false;
-            assertEquals(ex.getMessage(), "No enum constant com.mbi.fakers.SupportedParameters.INCORRECT");
+            assertEquals(ex.getMessage(), "No enum constant com.mbi.parameters.SupportedParameters.INCORRECT");
         }
         assertFalse(passed);
     }
@@ -279,5 +279,83 @@ public class JsonFakerTest {
         jsonObject.put("a", 1);
 
         assertEquals(jsonFaker.fakeData(jsonObject).toString(), jsonObject.toString());
+    }
+
+    @Test
+    public void testFakeNumberWithoutArgument() {
+        JSONObject json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$number}"));
+
+        JSONObject result = jsonFaker.fakeData(json);
+        assertEquals(String.valueOf(result.getJSONObject("b").getInt("c")).length(), 10);
+    }
+
+    @Test
+    public void testFakeNumberWithOneArgument() {
+        JSONObject json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$number;2}"));
+
+        JSONObject result = new JSONObject();
+        for (int i = 0; i < 500; i++) {
+            result = jsonFaker.fakeData(json);
+        }
+        assertEquals(String.valueOf(result.getJSONObject("b").getInt("c")).length(), 2);
+    }
+
+    @Test
+    public void testFakeNumberWithTwoArguments() {
+        JSONObject json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$number;2;second}"));
+
+        JSONObject result = jsonFaker.fakeData(json);
+        assertEquals(String.valueOf(result.getJSONObject("b").getInt("c")).length(), 2);
+    }
+
+    @Test
+    public void testFakeNumberWithInvalidArgument() {
+        JSONObject json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$number;e}"));
+
+        boolean passed;
+        try {
+            jsonFaker.fakeData(json);
+            passed = true;
+        } catch (IllegalArgumentException e) {
+            passed = false;
+            assertEquals(e.getMessage(), "Unexpected digits count! Expected int value: {$number;e}");
+        }
+        assertFalse(passed);
+    }
+
+    @Test
+    public void testFakeNumberWithCountMoreThanAccepted() {
+        JSONObject json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$number;140}"));
+
+        boolean passed;
+        try {
+            jsonFaker.fakeData(json);
+            passed = true;
+        } catch (IllegalArgumentException e) {
+            passed = false;
+            assertEquals(e.getMessage(), "Value 140 is not in the specified exclusive range of 1 to 13");
+        }
+        assertFalse(passed);
+    }
+
+    @Test
+    public void testFakeNumberWithCountLessThanAccepted() {
+        JSONObject json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$number;0}"));
+
+        boolean passed;
+        try {
+            jsonFaker.fakeData(json);
+            passed = true;
+        } catch (IllegalArgumentException e) {
+            passed = false;
+            assertEquals(e.getMessage(), "Value 0 is not in the specified exclusive range of 1 to 13");
+        }
+        assertFalse(passed);
     }
 }

@@ -1,11 +1,11 @@
 package com.mbi.fakers;
 
-import static com.mbi.Faker.PARAMETER_END;
-import static com.mbi.Faker.PARAMETER_START;
+import com.mbi.parameters.Parameter;
+import com.mbi.parameters.SupportedParameters;
 
 /**
  * Conducts value updating according to passed update parameter.
- * See {@link com.mbi.fakers.SupportedParameters} for available supported parameters.
+ * See {@link SupportedParameters} for available supported parameters.
  */
 public class FakeDirector {
 
@@ -17,28 +17,31 @@ public class FakeDirector {
      * @return updated field value.
      * @throws IllegalArgumentException if unsupported parameter passed.
      */
-    public String fake(final String parameter, final String fieldValue) {
-        final String updatedStr;
-        final String fullParameter = String.format("%s%s%s", PARAMETER_START, parameter, PARAMETER_END);
+    public Object fake(final String parameter, final Object fieldValue) {
+        final Object updatedStr;
+        final Parameter supportedParameter = new Parameter(parameter);
 
-        switch (SupportedParameters.valueOf(parameter.toUpperCase())) {
+        switch (supportedParameter.getSupportedParameter()) {
             case CALLER:
-                updatedStr = new CallerFaker().fake(fieldValue, fullParameter);
+                updatedStr = new CallerFaker().fake(String.valueOf(fieldValue), supportedParameter);
                 break;
             case UID:
-                updatedStr = new UidFaker().fake(fieldValue, fullParameter);
+                updatedStr = new UidFaker().fake(String.valueOf(fieldValue), supportedParameter);
                 break;
             case DATE:
-                updatedStr = new DateFaker().fake(fieldValue, fullParameter);
+                updatedStr = new DateFaker().fake(String.valueOf(fieldValue), supportedParameter);
                 break;
             case DATETIME:
-                updatedStr = new DateTimeFaker().fake(fieldValue, fullParameter);
+                updatedStr = new DateTimeFaker().fake(String.valueOf(fieldValue), supportedParameter);
                 break;
             case CURRENT_DATE:
-                updatedStr = new DateFaker().fake(fieldValue, fullParameter);
+                updatedStr = new DateFaker().fake(String.valueOf(fieldValue), supportedParameter);
                 break;
             case CURRENT_DATETIME:
-                updatedStr = new DateTimeFaker().fake(fieldValue, fullParameter);
+                updatedStr = new DateTimeFaker().fake(String.valueOf(fieldValue), supportedParameter);
+                break;
+            case NUMBER:
+                updatedStr = new NumberFaker().fake(String.valueOf(fieldValue), supportedParameter);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported parameter: " + parameter);

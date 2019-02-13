@@ -18,6 +18,7 @@ dependencies {
     implementation group: 'joda-time', name: 'joda-time', version: '2.9.9'
     implementation group: 'org.testng', name: 'testng', version: '6.14.2'
     implementation group: 'org.json', name: 'json', version: '20180130'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
 }
 
 test {

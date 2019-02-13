@@ -1,8 +1,10 @@
 package com.mbi.fakers;
 
+import com.mbi.parameters.Parameter;
+
 /**
  * Replaces parameter with appropriate data.
  */
 public interface Fakeable {
-    String fake(String sourceString, String parameter);
+    Object fake(String sourceString, Parameter parameter);
 }

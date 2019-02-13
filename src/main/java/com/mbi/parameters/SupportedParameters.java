@@ -1,4 +1,4 @@
-package com.mbi.fakers;
+package com.mbi.parameters;
 
 /**
  * Supported parameters to be replaces with appropriate data.
@@ -10,15 +10,16 @@ public enum SupportedParameters {
     INVALID,
     DATE,
     DATETIME,
+    NUMBER,
 
     /**
-     * @deprecated Use {@link com.mbi.fakers.SupportedParameters#DATE} instead.
+     * @deprecated Use {@link SupportedParameters#DATE} instead.
      */
     @Deprecated
     CURRENT_DATE,
 
     /**
-     * @deprecated Use {@link com.mbi.fakers.SupportedParameters#DATETIME} instead.
+     * @deprecated Use {@link SupportedParameters#DATETIME} instead.
      */
     @Deprecated
     CURRENT_DATETIME

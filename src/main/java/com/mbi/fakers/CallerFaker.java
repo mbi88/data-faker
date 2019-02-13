@@ -1,5 +1,7 @@
 package com.mbi.fakers;
 
+import com.mbi.parameters.Parameter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,8 +26,8 @@ public class CallerFaker implements Fakeable {
     };
 
     @Override
-    public String fake(final String sourceString, final String parameter) {
-        return sourceString.replace(parameter, getCallerMethodName());
+    public String fake(final String sourceString, final Parameter parameter) {
+        return sourceString.replace(parameter.getFullParameter(), getCallerMethodName());
     }
 
     /**

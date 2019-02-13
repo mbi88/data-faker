@@ -1,5 +1,6 @@
 package com.mbi;
 
+import com.mbi.parameters.SupportedParameters;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,11 +17,11 @@ import org.json.JSONObject;
  * "field": "Today is 2019-01-29."
  * }
  * <p>
- * See {@link com.mbi.fakers.SupportedParameters} for available supported parameters.
+ * See {@link SupportedParameters} for available supported parameters.
  */
 public class JsonFaker implements Faker {
 
-    private final StringFaker stringFaker = new StringFaker();
+    private final ObjectFaker objectFaker = new ObjectFaker();
 
     /**
      * Replace update parameters with data in json.
@@ -63,7 +64,7 @@ public class JsonFaker implements Faker {
             } else if (beUpdated instanceof JSONArray) {
                 updatedJson.put(field, fakeJsonArrayData((JSONArray) beUpdated));
             } else if (beUpdated instanceof String) {
-                updatedJson.put(field, stringFaker.fakeData(updatedJson.get(field)).toString());
+                updatedJson.put(field, objectFaker.fakeData(updatedJson.get(field)));
             } else {
                 updatedJson.put(field, beUpdated);
             }

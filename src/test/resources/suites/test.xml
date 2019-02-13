@@ -4,7 +4,7 @@
     <test name="tests">
         <classes>
             <class name="JsonFakerTest"/>
-            <class name="StringFakerTest"/>
+            <class name="ObjectFakerTest"/>
         </classes>
     </test>
 </suite>
