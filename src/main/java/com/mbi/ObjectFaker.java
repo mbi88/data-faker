@@ -1,5 +1,7 @@
 package com.mbi;
 
+import com.mbi.parameters.SupportedParameters;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +13,9 @@ import java.util.List;
  * Returns:
  * String field = "Today is 2019-01-29.";
  * <p>
- * See {@link com.mbi.fakers.SupportedParameters} for available supported parameters.
+ * See {@link SupportedParameters} for available supported parameters.
  */
-public class StringFaker implements Faker {
+public class ObjectFaker implements Faker {
 
     /**
      * Replace update parameters with data in string.
@@ -27,7 +29,7 @@ public class StringFaker implements Faker {
     public <T> T fakeData(final T resource) {
         if (resource instanceof String) {
             final List<String> parameters = getParams((String) resource);
-            String updatedValue = (String) resource;
+            Object updatedValue = resource;
             // Update only if parameters exist
             if (!parameters.isEmpty()) {
                 // Support several parameters in a field

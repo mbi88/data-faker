@@ -1,6 +1,7 @@
 package com.mbi;
 
 import com.mbi.fakers.FakeDirector;
+import com.mbi.parameters.SupportedParameters;
 
 /**
  * Set update parameter in object to get it replaced with corresponding data.
@@ -14,7 +15,7 @@ import com.mbi.fakers.FakeDirector;
  * "field": "Today is 2019-01-29."
  * }
  * <p>
- * See {@link com.mbi.fakers.SupportedParameters} for available supported parameters.
+ * See {@link SupportedParameters} for available supported parameters.
  */
 public interface Faker {
 

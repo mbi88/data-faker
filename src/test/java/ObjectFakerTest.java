@@ -1,19 +1,19 @@
 import com.mbi.Faker;
-import com.mbi.StringFaker;
+import com.mbi.ObjectFaker;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public class StringFakerTest {
+public class ObjectFakerTest {
 
-    private final Faker faker = new StringFaker();
+    private final Faker faker = new ObjectFaker();
 
     @Test
     public void testSeveralParameters() {
         String s = faker.fakeData("asd {$uid} asd {$caller} ddd");
 
         assertFalse(s.contains("{$"));
-        assertTrue(s.contains(" asd StringFakerTest.testSeveralParameters ddd"));
+        assertTrue(s.contains(" asd ObjectFakerTest.testSeveralParameters ddd"));
     }
 
     @Test
