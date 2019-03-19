@@ -287,7 +287,7 @@ public class JsonFakerTest {
         json.put("b", new JSONObject().put("c", "{$number}"));
 
         JSONObject result = jsonFaker.fakeData(json);
-        assertEquals(String.valueOf(result.getJSONObject("b").getInt("c")).length(), 10);
+        assertEquals(String.valueOf(result.getJSONObject("b").getInt("c")).length(), 11);
     }
 
     @Test
