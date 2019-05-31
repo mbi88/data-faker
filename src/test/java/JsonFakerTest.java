@@ -370,4 +370,12 @@ public class JsonFakerTest {
         assertTrue(result.getJSONObject("b").getString("c").startsWith(date));
         assertEquals(result.getJSONObject("b").getString("c").split(" ")[1].length(), 2);
     }
+
+    @Test
+    public void testFakerWithStringInJsonArray() {
+        var date = DateTimeFormat.forPattern("yyyy-MM-dd").print(new DateTime());
+        var jsonArray = new JSONArray().put("{$date}");
+
+        assertEquals(jsonFaker.fakeData(jsonArray).getString(0), date);
+    }
 }
