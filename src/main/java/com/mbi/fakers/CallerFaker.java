@@ -20,7 +20,7 @@ public class CallerFaker implements Fakeable {
                 && element.getClassName().contains("MethodAccessor")
                 && element.getMethodName().startsWith("invoke");
         final boolean invokedFromClassField = element.getClassName().contains("NativeConstructorAccessorImpl")
-                && element.getMethodName().equals("newInstance0");
+                && "newInstance0".equals(element.getMethodName());
 
         return invokedFromMethod || invokedFromClassField;
     };
