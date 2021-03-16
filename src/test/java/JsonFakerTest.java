@@ -157,6 +157,17 @@ public class JsonFakerTest {
     }
 
     @Test
+    public void testFakeUidWithLength() {
+        var json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$uid;6}"));
+
+        var result = jsonFaker.fakeData(json);
+
+        var uid = result.getJSONObject("b").getString("c");
+        assertTrue(uid.matches("[a-fA-F0-9]{6}"));
+    }
+
+    @Test
     public void testFakeCaller() {
         var json = new JSONObject();
         json.put("b", new JSONObject().put("c", "{$caller}"));
@@ -322,7 +333,7 @@ public class JsonFakerTest {
             passed = true;
         } catch (IllegalArgumentException e) {
             passed = false;
-            assertEquals(e.getMessage(), "Unexpected digits count! Expected int value: {$number;e}");
+            assertEquals(e.getMessage(), "Unexpected length! Expected int value: {$number;e}");
         }
         assertFalse(passed);
     }

@@ -8,6 +8,9 @@ import com.mbi.parameters.Parameter;
 public class UidFaker implements Fakeable {
     @Override
     public String fake(final String sourceString, final Parameter parameter) {
-        return sourceString.replace(parameter.getFullParameter(), java.util.UUID.randomUUID().toString());
+        final var uid = java.util.UUID.randomUUID().toString();
+        final var resultUid = parameter.getArguments().isEmpty() ? uid : uid.substring(0, parameter.getLength());
+
+        return sourceString.replace(parameter.getFullParameter(), resultUid);
     }
 }

@@ -13,11 +13,9 @@ import static com.mbi.Faker.PARAMETER_START;
  */
 public class Parameter {
 
-    private SupportedParameters supportedParameter;
-
     private final List<String> arguments = new ArrayList<>();
-
     private final String fullParameter;
+    private SupportedParameters supportedParameter;
 
     public Parameter(final String rawParameter) {
         this.fullParameter = String.format("%s%s%s", PARAMETER_START, rawParameter, PARAMETER_END);
@@ -41,5 +39,20 @@ public class Parameter {
 
     public List<String> getArguments() {
         return arguments;
+    }
+
+    /**
+     * @return parameter length.
+     */
+    public int getLength() {
+        final int length;
+        try {
+            length = Integer.parseInt(arguments.get(0));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(
+                    String.format("Unexpected length! Expected int value: %s", getFullParameter()), e);
+        }
+
+        return length;
     }
 }

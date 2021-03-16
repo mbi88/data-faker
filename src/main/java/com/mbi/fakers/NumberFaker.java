@@ -59,7 +59,7 @@ public class NumberFaker implements Fakeable {
     public Object fake(final String sourceString, final Parameter parameter) {
         final var randomNumber = (parameter.getArguments().isEmpty())
                 ? String.valueOf(getRandomNum())
-                : String.valueOf(getRandomNum(getDigitsCount(parameter)));
+                : String.valueOf(getRandomNum(parameter.getLength()));
 
         final var result = sourceString.replace(parameter.getFullParameter(), randomNumber);
 
@@ -70,17 +70,5 @@ public class NumberFaker implements Fakeable {
         }
 
         return Long.parseLong(result);
-    }
-
-    private int getDigitsCount(final Parameter parameter) {
-        final int count;
-        try {
-            count = Integer.parseInt(parameter.getArguments().get(0));
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                    String.format("Unexpected digits count! Expected int value: %s", parameter.getFullParameter()), e);
-        }
-
-        return count;
     }
 }
