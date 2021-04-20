@@ -17,6 +17,9 @@ public class Parameter {
     private final String fullParameter;
     private SupportedParameters supportedParameter;
 
+    /**
+     * @param rawParameter parameter to be replaced.
+     */
     public Parameter(final String rawParameter) {
         this.fullParameter = String.format("%s%s%s", PARAMETER_START, rawParameter, PARAMETER_END);
 
@@ -29,14 +32,23 @@ public class Parameter {
                 });
     }
 
+    /**
+     * @return parameter raw value.
+     */
     public String getFullParameter() {
         return fullParameter;
     }
 
+    /**
+     * @return supported parameters.
+     */
     public SupportedParameters getSupportedParameter() {
         return supportedParameter;
     }
 
+    /**
+     * @return parameter arguments list.
+     */
     public List<String> getArguments() {
         return arguments;
     }

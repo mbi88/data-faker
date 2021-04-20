@@ -5,11 +5,34 @@ package com.mbi.parameters;
  */
 public enum SupportedParameters {
 
+    /**
+     * UID string parameter.
+     */
     UID,
+
+    /**
+     * Caller method name.
+     */
     CALLER,
+
+    /**
+     * Invalid parameter for testing purpose.
+     */
     INVALID,
+
+    /**
+     * Date parameter.
+     */
     DATE,
+
+    /**
+     * Datetime parameter.
+     */
     DATETIME,
+
+    /**
+     * Number parameter.
+     */
     NUMBER,
 
     /**
