@@ -389,4 +389,12 @@ public class JsonFakerTest {
 
         assertEquals(jsonFaker.fakeData(jsonArray).getString(0), date);
     }
+
+    @Test
+    public void testCanGetFakedNumberAsString() {
+        var json = new JSONObject();
+        json.put("a", "{$number;2;s}");
+
+        assertEquals(jsonFaker.fakeData(json).getString("a").length(), 2);
+    }
 }

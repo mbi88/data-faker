@@ -1,6 +1,7 @@
 package com.mbi.fakers;
 
 import com.mbi.parameters.Parameter;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 import java.util.ArrayList;
@@ -63,9 +64,7 @@ public class NumberFaker implements Fakeable {
 
         final var result = sourceString.replace(parameter.getFullParameter(), randomNumber);
 
-        try {
-            Long.parseLong(result);
-        } catch (NumberFormatException e) {
+        if (parameter.isStringResult() || !StringUtils.isNumeric(result)) {
             return result;
         }
 
