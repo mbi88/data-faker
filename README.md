@@ -21,7 +21,8 @@ Example:
 ```json
 {
   "field1": "Today is {$date}.",
-  "field2": "Numbers: {$number}, {$number;2}"
+  "field2": "Numbers: {$number}, {$number;2}",
+  "field3": "{$number;2;s}"
 }
 ```
 
@@ -29,7 +30,8 @@ Returns:
 ```json
 {
   "field1": "Today is 2019-02-13.",
-  "field2": "Numbers: 1550061663279, 85"
+  "field2": "Numbers: 1550061663279, 85",
+  "field3": "32"
 }
 ```
 
