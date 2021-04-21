@@ -48,11 +48,6 @@ java {
     withSourcesJar()
 }
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-
 quality {
     checkstyle = true
     pmd = true
