@@ -4,8 +4,8 @@ plugins {
     id("ru.vyarus.quality").version("4.5.0")
     id("java-library")
     id("jacoco")
+    id("maven-publish")
 }
-apply(plugin = "maven-publish")
 
 val suitesDir = "src/test/resources/suites/"
 
@@ -51,11 +51,6 @@ tasks.jacocoTestReport {
 java {
     withJavadocJar()
     withSourcesJar()
-
-    artifacts {
-        archives(withJavadocJar())
-        archives(withSourcesJar())
-    }
 }
 
 quality {
