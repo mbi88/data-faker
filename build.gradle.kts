@@ -5,6 +5,7 @@ plugins {
     id("java-library")
     id("jacoco")
 }
+apply(plugin = "maven-publish")
 
 val suitesDir = "src/test/resources/suites/"
 
