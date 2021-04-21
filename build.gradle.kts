@@ -51,6 +51,11 @@ tasks.jacocoTestReport {
 java {
     withJavadocJar()
     withSourcesJar()
+
+    artifacts {
+        archives(withJavadocJar())
+        archives(withSourcesJar())
+    }
 }
 
 quality {
