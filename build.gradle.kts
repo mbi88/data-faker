@@ -41,9 +41,9 @@ tasks.test {
 
 tasks.jacocoTestReport {
     reports {
-        xml.isEnabled = true
-        html.isEnabled = true
-        html.destination = layout.buildDirectory.dir("${buildDir}/reports/coverage").get().asFile
+        xml.required.set(true)
+        html.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("${buildDir}/reports/coverage").get().asFile)
     }
 }
 
