@@ -4,6 +4,7 @@ plugins {
     id("ru.vyarus.quality").version("4.5.0")
     id("java-library")
     id("jacoco")
+    id("maven-publish")
 }
 
 val suitesDir = "src/test/resources/suites/"
@@ -61,4 +62,16 @@ quality {
 
 tasks.check {
     dependsOn(tasks.jacocoTestReport)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "com.mbi"
+            artifactId = "data-faker"
+            version = "1.0"
+
+            from(components["java"])
+        }
+    }
 }
