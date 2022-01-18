@@ -13,6 +13,8 @@ import java.util.Random;
  */
 public class NumberFaker implements Fakeable {
 
+    private static final Random RANDOM = new Random();
+
     /**
      * Returns random number.
      *
@@ -28,10 +30,8 @@ public class NumberFaker implements Fakeable {
                 String.format("Value %d is not in the specified exclusive range of %d to %d", count, start, end));
 
         final List<Integer> integers = new ArrayList<>();
-        final var randomGenerator = new Random();
-
         for (int i = 0; i < count; i++) {
-            integers.add(randomGenerator.nextInt(10));
+            integers.add(RANDOM.nextInt(10));
         }
 
         // Replace 0 in the beginning
