@@ -18,7 +18,7 @@ dependencies {
     implementation("org.testng:testng:7.5")
     implementation("joda-time:joda-time:2.10.9")
     implementation("org.json:json:20201115")
-    implementation("org.apache.commons:commons-lang3:3.11")
+    implementation("org.apache.commons:commons-lang3:3.12.0")
 }
 
 tasks.test {
