@@ -16,11 +16,13 @@ public class CallerFaker implements Fakeable {
      * Helps to find test case element in stacktrace.
      */
     private final Predicate<StackTraceElement> testCaseInStackTrace = element -> {
-        final boolean invokedFromMethod = element.getClassName().contains("reflect.")
-                && element.getClassName().contains("MethodAccessor")
-                && element.getMethodName().startsWith("invoke");
-        final boolean invokedFromClassField = element.getClassName().contains("NativeConstructorAccessorImpl")
-                && "newInstance0".equals(element.getMethodName());
+        final var className = element.getClassName();
+        final var methodName = element.getMethodName();
+        final boolean invokedFromMethod = className.contains("reflect.")
+                && (className.contains("MethodAccessor") || className.contains("HandleAccessor"))
+                && (methodName.startsWith("invoke") || "newInstance".equals(element.getMethodName()));
+        final boolean invokedFromClassField = className.contains("NativeConstructorAccessorImpl")
+                && "newInstance0".equals(methodName);
 
         return invokedFromMethod || invokedFromClassField;
     };
