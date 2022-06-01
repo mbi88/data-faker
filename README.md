@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/mbi88/data-faker.svg?branch=master)](https://travis-ci.com/mbi88/data-faker)
+[![Java CI with Gradle](https://github.com/mbi88/data-faker/actions/workflows/gradle.yml/badge.svg)](https://github.com/mbi88/data-faker/actions/workflows/gradle.yml)
 [![](https://jitpack.io/v/mbi88/data-faker.svg)](https://jitpack.io/#mbi88/data-faker)
 [![codecov](https://codecov.io/gh/mbi88/data-faker/branch/master/graph/badge.svg)](https://codecov.io/gh/mbi88/data-faker)
 
