@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     implementation("org.testng:testng:7.10.2")
-    implementation("joda-time:joda-time:2.12.7")
+    implementation("joda-time:joda-time:2.13.0")
     implementation("org.json:json:20240303")
     implementation("org.apache.commons:commons-lang3:3.17.0")
 }
