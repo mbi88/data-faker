@@ -22,7 +22,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -30,13 +31,11 @@ jobs:
           java-version: 21
           distribution: 'temurin'
 
-      - name: Set up Gradle
+      - name: Set up Gradle (with caching)
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: 8.12.1
 
-      - name: Build with Gradle (clean + build + jacoco)
-        run: gradle clean build jacocoTestReport
+      - name: Build with Gradle Wrapper
+        run: ./gradlew clean build jacocoTestReport
 
       - name: Upload coverage to Codecov
         if: success()
