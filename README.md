@@ -107,7 +107,7 @@ Output:
 
 ## Usage
 
-`java`
+```java
 import com.mbi.Faker;
 import com.mbi.JsonFaker;
 import org.json.JSONObject;
@@ -126,6 +126,7 @@ public class FakerTest {
         System.out.println(result.toString(2));
     }
 }
+```
 
 ---
 
