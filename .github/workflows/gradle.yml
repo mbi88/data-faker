@@ -30,10 +30,13 @@ jobs:
           java-version: 21
           distribution: 'temurin'
 
-      - name: Build with Gradle (clean + build + jacoco)
-        uses: gradle/gradle-build-action@v3
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
         with:
-          arguments: clean build jacocoTestReport
+          gradle-version: 8.12.1
+
+      - name: Build with Gradle (clean + build + jacoco)
+        run: gradle clean build jacocoTestReport
 
       - name: Upload coverage to Codecov
         if: success()
