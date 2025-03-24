@@ -22,7 +22,6 @@ public class NumberFaker implements Fakeable {
     private static final int MAX_LENGTH = 18;
     private static final Random RANDOM = new Random();
 
-
     /**
      * Replaces the parameter with a random number (either as `Long` or `String`, depending on argument).
      *
