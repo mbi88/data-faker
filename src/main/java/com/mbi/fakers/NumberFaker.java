@@ -4,70 +4,82 @@ import com.mbi.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
- * Replaces parameter with random number.
+ * Replaces the parameter with a random number.
+ * Supports parameters like:
+ * <ul>
+ *     <li>{@code {$number}} – generates a 13-digit number by default</li>
+ *     <li>{@code {$number;5}} – generates a 5-digit number</li>
+ *     <li>{@code {$number;5;s}} – generates a 5-digit number as a string</li>
+ * </ul>
  */
 public class NumberFaker implements Fakeable {
 
+    private static final int DEFAULT_LENGTH = 13;
+    private static final int MIN_LENGTH = 1;
+    private static final int MAX_LENGTH = 18;
     private static final Random RANDOM = new Random();
 
-    /**
-     * Returns random number.
-     *
-     * @param count digits count
-     * @return number
-     */
-    private long getRandomNum(final int count) {
-        // Valid range
-        final int start = 1;
-        final int end = 18;
-        // Validate digits count is in a supported range
-        Validate.exclusiveBetween(start - 1, end + 1, count,
-                String.format("Value %d is not in the specified exclusive range of %d to %d", count, start, end));
-
-        final List<Integer> integers = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            integers.add(RANDOM.nextInt(10));
-        }
-
-        // Replace 0 in the beginning
-        if (integers.get(0).equals(0)) {
-            integers.set(0, 1);
-        }
-
-        final var randomString = new StringBuilder();
-        for (var i : integers) {
-            randomString.append(i);
-        }
-
-        return Long.parseLong(String.valueOf(randomString));
-    }
 
     /**
-     * Returns random number.
+     * Replaces the parameter with a random number (either as `Long` or `String`, depending on argument).
      *
-     * @return number
+     * @param sourceString the original string
+     * @param parameter    the parameter to replace
+     * @return updated string with number injected
      */
-    private long getRandomNum() {
-        return getRandomNum(13);
-    }
-
     @Override
     public Object fake(final String sourceString, final Parameter parameter) {
-        final var randomNumber = (parameter.getArguments().isEmpty())
-                ? String.valueOf(getRandomNum())
-                : String.valueOf(getRandomNum(parameter.getLength()));
+        final int length = parameter.getArguments().isEmpty()
+                ? DEFAULT_LENGTH
+                : getValidatedLength(parameter);
 
-        final var result = sourceString.replace(parameter.getFullParameter(), randomNumber);
+        final String randomNumber = generateRandomNumber(length);
+        final String replaced = sourceString.replace(parameter.getFullParameter(), randomNumber);
 
-        if (parameter.isStringResult() || !StringUtils.isNumeric(result)) {
-            return result;
+        // If "s" is passed or result contains non-numeric characters, return as string
+        if (parameter.isStringResult() || !StringUtils.isNumeric(replaced)) {
+            return replaced;
         }
 
-        return Long.parseLong(result);
+        return Long.parseLong(replaced);
+    }
+
+    /**
+     * Validates and returns the length of the number to be generated.
+     *
+     * @param parameter the parameter containing length argument
+     * @return the validated length
+     */
+    private int getValidatedLength(final Parameter parameter) {
+        final int length = parameter.getLength();
+
+        // Validate digits count is in a supported range
+        Validate.inclusiveBetween(MIN_LENGTH, MAX_LENGTH, length,
+                "Number length must be between " + MIN_LENGTH + " and " + MAX_LENGTH);
+
+        return length;
+    }
+
+    /**
+     * Generates a random number of the given length (as a string).
+     * Ensures that the first digit is not zero.
+     *
+     * @param length number of digits
+     * @return random number string
+     */
+    private String generateRandomNumber(final int length) {
+        final StringBuilder sb = new StringBuilder(length);
+
+        // Ensure first digit is not zero
+        sb.append(RANDOM.nextInt(9) + 1);
+
+        for (int i = 1; i < length; i++) {
+            sb.append(RANDOM.nextInt(10));
+        }
+
+        return sb.toString();
     }
 }

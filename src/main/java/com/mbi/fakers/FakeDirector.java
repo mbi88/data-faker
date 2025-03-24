@@ -18,35 +18,15 @@ public class FakeDirector {
      * @throws IllegalArgumentException if unsupported parameter passed.
      */
     public Object fake(final String parameter, final Object fieldValue) {
-        final Object updatedStr;
         final Parameter supportedParameter = new Parameter(parameter);
 
-        switch (supportedParameter.getSupportedParameter()) {
-            case CALLER:
-                updatedStr = new CallerFaker().fake(String.valueOf(fieldValue), supportedParameter);
-                break;
-            case UID:
-                updatedStr = new UidFaker().fake(String.valueOf(fieldValue), supportedParameter);
-                break;
-            case DATE:
-                updatedStr = new DateFaker().fake(String.valueOf(fieldValue), supportedParameter);
-                break;
-            case DATETIME:
-                updatedStr = new DateTimeFaker().fake(String.valueOf(fieldValue), supportedParameter);
-                break;
-            case CURRENT_DATE:
-                updatedStr = new DateFaker().fake(String.valueOf(fieldValue), supportedParameter);
-                break;
-            case CURRENT_DATETIME:
-                updatedStr = new DateTimeFaker().fake(String.valueOf(fieldValue), supportedParameter);
-                break;
-            case NUMBER:
-                updatedStr = new NumberFaker().fake(String.valueOf(fieldValue), supportedParameter);
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported parameter: " + parameter);
-        }
-
-        return updatedStr;
+        return switch (supportedParameter.getSupportedParameter()) {
+            case CALLER -> new CallerFaker().fake(String.valueOf(fieldValue), supportedParameter);
+            case UID -> new UidFaker().fake(String.valueOf(fieldValue), supportedParameter);
+            case DATE, CURRENT_DATE -> new DateFaker().fake(String.valueOf(fieldValue), supportedParameter);
+            case DATETIME, CURRENT_DATETIME -> new DateTimeFaker().fake(String.valueOf(fieldValue), supportedParameter);
+            case NUMBER -> new NumberFaker().fake(String.valueOf(fieldValue), supportedParameter);
+            default -> throw new IllegalArgumentException("Unsupported parameter: " + parameter);
+        };
     }
 }

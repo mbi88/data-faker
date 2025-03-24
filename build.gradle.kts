@@ -7,6 +7,9 @@ plugins {
     id("maven-publish")
 }
 
+group = "com.mbi"
+version = "1.0"
+
 val suitesDir = "src/test/resources/suites/"
 
 repositories {
@@ -23,20 +26,14 @@ dependencies {
 
 tasks.test {
     useTestNG {
-        // Add test suites
-        File(projectDir.absolutePath + "/" + suitesDir)
-            .walk()
-            .forEach {
-                if (it.isFile) {
-                    suites(it)
-                }
-            }
+        // Automatically include all XML test suite files from suitesDir
+        fileTree(suitesDir).matching { include("*.xml") }.files.forEach { suites(it) }
+    }
 
-        testLogging {
-            events("passed", "skipped", "failed")
-            exceptionFormat = TestExceptionFormat.FULL
-            showStandardStreams = true
-        }
+    testLogging {
+        events("passed", "skipped", "failed")
+        exceptionFormat = TestExceptionFormat.FULL
+        showStandardStreams = true
     }
 }
 
@@ -54,11 +51,11 @@ java {
 }
 
 tasks.withType<Javadoc> {
-    val opts = options as StandardJavadocDocletOptions
-    opts.addBooleanOption("Xdoclint:none", true)
+    (options as StandardJavadocDocletOptions).addBooleanOption("Xdoclint:none", true)
 }
 
 quality {
+    // Enable all supported static analysis tools
     checkstyle = true
     pmd = true
     codenarc = true
@@ -72,10 +69,7 @@ tasks.check {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "com.mbi"
             artifactId = "data-faker"
-            version = "1.0"
-
             from(components["java"])
         }
     }

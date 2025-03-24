@@ -4,6 +4,7 @@ import com.mbi.parameters.SupportedParameters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Set update parameter in string to get it replaced with corresponding data.
@@ -17,58 +18,75 @@ import java.util.List;
  */
 public class ObjectFaker implements Faker {
 
+    // Regex to extract all parameters like {$...}
+    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\{\\$([^{}\\s]+?)}");
+
     /**
-     * Replace update parameters with data in string.
+     * Replaces all parameter placeholders in the input string with fake data.
      *
-     * @param resource string to be updated.
-     * @param <T>      string.
-     * @return updated string.
+     * @param resource string to be updated
+     * @param <T>      the object type (typically String)
+     * @return the object with replaced placeholder values
      */
     @Override
     @SuppressWarnings("unchecked")
     public <T> T fakeData(final T resource) {
-        if (resource instanceof String) {
-            final List<String> parameters = getParams((String) resource);
-            Object updatedValue = resource;
-            // Update only if parameters exist
-            if (!parameters.isEmpty()) {
-                // Support several parameters in a field
-                for (String par : parameters) {
-                    // Replace update parameter with appropriate data
-                    updatedValue = FAKE_DIRECTOR.fake(par, updatedValue);
-                }
-            }
+        T result = resource;
 
-            return (T) updatedValue;
+        if (resource instanceof String string) {
+            // Extract parameters like current_date, uid, etc.
+            final List<String> parameters = extractParameters(string);
+
+            // If there are no parameters, return the original string as-is
+            if (!parameters.isEmpty()) {
+                // Replace each parameter with the corresponding fake value
+                Object updated = string;
+                for (var param : parameters) {
+                    updated = FAKE_DIRECTOR.fake(param, updated);
+                }
+                result = (T) updated;
+            }
         }
 
-        return resource;
+        return result;
     }
 
     /**
-     * Get parameters from field.
+     * Extracts all parameter names from the given string.
+     * Parameters must be in the format: {$parameter}.
+     * <p>
+     * Example:
+     * Input:  "Today is {$date} and your ID is {$uid}"
+     * Output: ["date", "uid"]
+     * <p>
+     * If any parameter is not properly closed with '}', an IllegalArgumentException is thrown.
      *
-     * @param fieldValue field value.
-     * @return list of parameters if exist or empty list.
+     * @param value the string to search for parameters
+     * @return a list of extracted parameter names
+     * @throws IllegalArgumentException if a malformed parameter is found
      */
-    private List<String> getParams(final String fieldValue) {
-        final List<String> list = new ArrayList<>();
-        String s = fieldValue;
+    private List<String> extractParameters(final String value) {
+        final var params = new ArrayList<String>();
+        final var matcher = PARAMETER_PATTERN.matcher(value);
+        int lastMatchEnd = 0;
 
-        while (s.contains(PARAMETER_START)) {
-            // Remove the sign of the beginning of the parameter and all before
-            s = s.substring(s.indexOf(PARAMETER_START) + PARAMETER_START.length());
-            // Remove the sign of the end of the parameter and all after
-            final String param;
-            try {
-                param = s.substring(0, s.indexOf(PARAMETER_END));
-            } catch (StringIndexOutOfBoundsException ex) {
-                throw new IllegalArgumentException("Incorrect parameter: " + fieldValue, ex);
+        while (matcher.find()) {
+            // Check for unclosed '{$' before the current match
+            final var between = value.substring(lastMatchEnd, matcher.start());
+            if (between.contains(PARAMETER_START)) {
+                throw new IllegalArgumentException("Incorrect parameter: " + value);
             }
-            // Store parameter
-            list.add(param);
+
+            // Add the parameter name found inside {$...}
+            params.add(matcher.group(1));
+            lastMatchEnd = matcher.end();
         }
 
-        return list;
+        // After the last match, check if there is still an unmatched '{$'
+        if (value.substring(lastMatchEnd).contains(PARAMETER_START)) {
+            throw new IllegalArgumentException("Incorrect parameter: " + value);
+        }
+
+        return params;
     }
 }

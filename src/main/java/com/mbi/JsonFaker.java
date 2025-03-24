@@ -58,15 +58,12 @@ public class JsonFaker implements Faker {
         final JSONObject updatedJson = new JSONObject(json.toString());
         // Update every json field
         for (String field : updatedJson.keySet()) {
-            final Object beUpdated = updatedJson.get(field);
-            if (beUpdated instanceof JSONObject) {
-                updatedJson.put(field, fakeJsonObjectData((JSONObject) beUpdated));
-            } else if (beUpdated instanceof JSONArray) {
-                updatedJson.put(field, fakeJsonArrayData((JSONArray) beUpdated));
-            } else if (beUpdated instanceof String) {
-                updatedJson.put(field, objectFaker.fakeData(updatedJson.get(field)));
-            } else {
-                updatedJson.put(field, beUpdated);
+            final var valueToUpdate = updatedJson.get(field);
+            switch (valueToUpdate) {
+                case JSONObject jsonObject -> updatedJson.put(field, fakeJsonObjectData(jsonObject));
+                case JSONArray objects -> updatedJson.put(field, fakeJsonArrayData(objects));
+                case String s -> updatedJson.put(field, objectFaker.fakeData(s));
+                case null, default -> updatedJson.put(field, valueToUpdate);
             }
         }
 
@@ -83,13 +80,11 @@ public class JsonFaker implements Faker {
         // Avoid updating of passed json
         final JSONArray resultArray = new JSONArray();
         // Update every json object
-        for (Object beUpdated : json) {
-            if (beUpdated instanceof JSONObject) {
-                resultArray.put(fakeJsonObjectData((JSONObject) beUpdated));
-            } else if (beUpdated instanceof JSONArray) {
-                resultArray.put(fakeJsonArrayData((JSONArray) beUpdated));
-            } else {
-                resultArray.put(objectFaker.fakeData(beUpdated));
+        for (var valueToUpdate : json) {
+            switch (valueToUpdate) {
+                case JSONObject jsonObject -> resultArray.put(fakeJsonObjectData(jsonObject));
+                case JSONArray objects -> resultArray.put(fakeJsonArrayData(objects));
+                case null, default -> resultArray.put(objectFaker.fakeData(valueToUpdate));
             }
         }
 

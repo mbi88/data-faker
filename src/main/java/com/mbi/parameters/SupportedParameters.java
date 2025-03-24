@@ -16,7 +16,7 @@ public enum SupportedParameters {
     CALLER,
 
     /**
-     * Invalid parameter for testing purpose.
+     * Special marker for unsupported or unknown parameter (used in testing).
      */
     INVALID,
 
@@ -37,12 +37,14 @@ public enum SupportedParameters {
 
     /**
      * @deprecated Use {@link SupportedParameters#DATE} instead.
+     * Left for backward compatibility with legacy test data.
      */
     @Deprecated
     CURRENT_DATE,
 
     /**
      * @deprecated Use {@link SupportedParameters#DATETIME} instead.
+     * Left for backward compatibility with legacy test data.
      */
     @Deprecated
     CURRENT_DATETIME

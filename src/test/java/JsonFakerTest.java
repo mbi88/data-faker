@@ -236,15 +236,8 @@ public class JsonFakerTest {
         var json = new JSONObject();
         json.put("b", new JSONObject().put("c", "{$incorrect}"));
 
-        boolean passed;
-        try {
-            jsonFaker.fakeData(json);
-            passed = true;
-        } catch (IllegalArgumentException ex) {
-            passed = false;
-            assertEquals(ex.getMessage(), "No enum constant com.mbi.parameters.SupportedParameters.INCORRECT");
-        }
-        assertFalse(passed);
+        var ex = expectThrows(IllegalArgumentException.class, () -> jsonFaker.fakeData(json));
+        assertEquals(ex.getMessage(), "Unsupported parameter: incorrect");
     }
 
     @Test
@@ -252,15 +245,8 @@ public class JsonFakerTest {
         var json = new JSONObject();
         json.put("b", new JSONObject().put("c", "{$INVALID}"));
 
-        boolean passed;
-        try {
-            jsonFaker.fakeData(json);
-            passed = true;
-        } catch (IllegalArgumentException ex) {
-            passed = false;
-            assertEquals(ex.getMessage(), "Unsupported parameter: INVALID");
-        }
-        assertFalse(passed);
+        var ex = expectThrows(IllegalArgumentException.class, () -> jsonFaker.fakeData(json));
+        assertEquals(ex.getMessage(), "Unsupported parameter: INVALID");
     }
 
     @Test
@@ -327,15 +313,17 @@ public class JsonFakerTest {
         var json = new JSONObject();
         json.put("b", new JSONObject().put("c", "{$number;e}"));
 
-        boolean passed;
-        try {
-            jsonFaker.fakeData(json);
-            passed = true;
-        } catch (IllegalArgumentException e) {
-            passed = false;
-            assertEquals(e.getMessage(), "Unexpected length! Expected int value: {$number;e}");
-        }
-        assertFalse(passed);
+        var ex = expectThrows(IllegalArgumentException.class, () -> jsonFaker.fakeData(json));
+        assertEquals(ex.getMessage(), "Invalid length argument in parameter: {$number;e}");
+    }
+
+    @Test
+    public void testFakeNumberWithEmptyArgument() {
+        var json = new JSONObject();
+        json.put("b", new JSONObject().put("c", "{$number;;s}"));
+
+        var ex = expectThrows(IllegalArgumentException.class, () -> jsonFaker.fakeData(json));
+        assertEquals(ex.getMessage(), "Invalid length argument in parameter: {$number;;s}");
     }
 
     @Test
@@ -343,15 +331,8 @@ public class JsonFakerTest {
         var json = new JSONObject();
         json.put("b", new JSONObject().put("c", "{$number;140}"));
 
-        boolean passed;
-        try {
-            jsonFaker.fakeData(json);
-            passed = true;
-        } catch (IllegalArgumentException e) {
-            passed = false;
-            assertEquals(e.getMessage(), "Value 140 is not in the specified exclusive range of 1 to 18");
-        }
-        assertFalse(passed);
+        var ex = expectThrows(IllegalArgumentException.class, () -> jsonFaker.fakeData(json));
+        assertEquals(ex.getMessage(), "Number length must be between 1 and 18");
     }
 
     @Test
@@ -359,15 +340,8 @@ public class JsonFakerTest {
         var json = new JSONObject();
         json.put("b", new JSONObject().put("c", "{$number;0}"));
 
-        boolean passed;
-        try {
-            jsonFaker.fakeData(json);
-            passed = true;
-        } catch (IllegalArgumentException e) {
-            passed = false;
-            assertEquals(e.getMessage(), "Value 0 is not in the specified exclusive range of 1 to 18");
-        }
-        assertFalse(passed);
+        var ex = expectThrows(IllegalArgumentException.class, () -> jsonFaker.fakeData(json));
+        assertEquals(ex.getMessage(), "Number length must be between 1 and 18");
     }
 
     @Test

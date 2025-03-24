@@ -30,6 +30,7 @@ public interface Faker {
     String PARAMETER_END = "}";
 
     /**
+     * Central dispatcher for parameter-based value generation.
      * Conducts value updating according to passed update parameter.
      */
     FakeDirector FAKE_DIRECTOR = new FakeDirector();

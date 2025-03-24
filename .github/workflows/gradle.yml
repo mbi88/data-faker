@@ -23,17 +23,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: 21
           distribution: 'temurin'
-      - name: Build with Gradle
+
+      - name: Build with Gradle (clean + build + jacoco)
         uses: gradle/gradle-build-action@v3
         with:
           arguments: clean build jacocoTestReport
-        if: success()
+
       - name: Upload coverage to Codecov
+        if: success()
         uses: codecov/codecov-action@v4
         with:
-          token: ${{secrets.CODECOV_TOKEN}}
+          token: ${{ secrets.CODECOV_TOKEN }}
