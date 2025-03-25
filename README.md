@@ -1,6 +1,7 @@
 [![Java CI with Gradle](https://github.com/mbi88/data-faker/actions/workflows/gradle.yml/badge.svg)](https://github.com/mbi88/data-faker/actions/workflows/gradle.yml)
 [![codecov](https://codecov.io/gh/mbi88/data-faker/branch/master/graph/badge.svg)](https://codecov.io/gh/mbi88/data-faker)
 [![Latest Version](https://img.shields.io/github/v/tag/mbi88/data-faker?label=version)](https://github.com/mbi88/data-faker/releases)
+[![jitpack](https://jitpack.io/v/mbi88/data-faker.svg)](https://jitpack.io/#mbi88/data-faker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 
