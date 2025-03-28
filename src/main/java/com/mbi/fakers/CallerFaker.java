@@ -51,7 +51,6 @@ public class CallerFaker implements Fakeable {
         final List<StackTraceElement> stack = Arrays.asList(Thread.currentThread().getStackTrace());
 
         for (int i = 0; i < stack.size(); i++) {
-            System.out.println(stack.get(i));
             if (isReflectionInvocation.test(stack.get(i))) {
                 // Go two steps above the reflection-related element
                 return i - 2;
