@@ -41,7 +41,7 @@ public class ObjectFaker implements Faker {
             if (!parameters.isEmpty()) {
                 // Replace each parameter with the corresponding fake value
                 Object updated = string;
-                for (var param : parameters) {
+                for (final var param : parameters) {
                     updated = FAKE_DIRECTOR.fake(param, updated);
                 }
                 result = (T) updated;

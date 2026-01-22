@@ -57,7 +57,7 @@ public class JsonFaker implements Faker {
         // Avoid updating of passed json
         final JSONObject updatedJson = new JSONObject(json.toString());
         // Update every json field
-        for (String field : updatedJson.keySet()) {
+        for (final var field : updatedJson.keySet()) {
             final var valueToUpdate = updatedJson.get(field);
             switch (valueToUpdate) {
                 case JSONObject jsonObject -> updatedJson.put(field, fakeJsonObjectData(jsonObject));
@@ -80,7 +80,7 @@ public class JsonFaker implements Faker {
         // Avoid updating of passed json
         final JSONArray resultArray = new JSONArray();
         // Update every json object
-        for (var valueToUpdate : json) {
+        for (final var valueToUpdate : json) {
             switch (valueToUpdate) {
                 case JSONObject jsonObject -> resultArray.put(fakeJsonObjectData(jsonObject));
                 case JSONArray objects -> resultArray.put(fakeJsonArrayData(objects));

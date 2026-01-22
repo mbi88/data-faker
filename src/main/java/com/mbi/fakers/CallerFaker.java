@@ -20,7 +20,7 @@ public class CallerFaker implements Fakeable {
     /**
      * Predicate to detect reflective or synthetic method calls in the stack trace.
      */
-    private final Predicate<StackTraceElement> isReflectionInvocation = element -> {
+    private final Predicate<StackTraceElement> reflectionInvocationPredicate = element -> {
         final var className = element.getClassName();
         final var methodName = element.getMethodName();
         return (className.contains("reflect.")
@@ -47,11 +47,11 @@ public class CallerFaker implements Fakeable {
      *
      * @return index of the caller method frame
      */
-    int getCallerStackDepth() {
+    protected int getCallerStackDepth() {
         final List<StackTraceElement> stack = Arrays.asList(Thread.currentThread().getStackTrace());
 
         for (int i = 0; i < stack.size(); i++) {
-            if (isReflectionInvocation.test(stack.get(i))) {
+            if (reflectionInvocationPredicate.test(stack.get(i))) {
                 // Go two steps above the reflection-related element
                 return i - 2;
             }
@@ -84,7 +84,7 @@ public class CallerFaker implements Fakeable {
      *
      * @return a predicate to detect reflection-related stack trace elements
      */
-    Predicate<StackTraceElement> isReflectionInvocation() {
-        return isReflectionInvocation;
+    protected Predicate<StackTraceElement> isReflectionInvocation() {
+        return reflectionInvocationPredicate;
     }
 }

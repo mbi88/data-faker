@@ -3,6 +3,7 @@ package com.mbi.parameters;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import static com.mbi.Faker.PARAMETER_END;
 import static com.mbi.Faker.PARAMETER_START;
@@ -50,7 +51,7 @@ public final class Parameter {
         this.fullParameter = PARAMETER_START + rawParameter + PARAMETER_END;
 
         try {
-            this.supportedParameter = SupportedParameters.valueOf(parameterName.toUpperCase());
+            this.supportedParameter = SupportedParameters.valueOf(parameterName.toUpperCase(Locale.getDefault()));
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException("Unsupported parameter: " + parameterName, ex);
         }
